@@ -10,16 +10,16 @@ def run_python_file(working_directory, file_path, args=None):
         if not os.path.isfile(abs_filepath):
             return f'Error: "{file_path}" does not exist or is not a regular file'
         if not abs_filepath.endswith(".py"):
-            f'Error: "{file_path}" is not a Python file'
+            return f'Error: "{file_path}" is not a Python file'
         command = ["python", abs_filepath]
         if args:
             command.extend(args)
-            result = subprocess.run(
-                command,
-                cwd= abs_wd,
-                capture_output=True,
-                text=True, 
-                timeout =30
+        result = subprocess.run(
+            command,
+            cwd= abs_wd,
+            capture_output=True,
+            text=True, 
+            timeout =30
             )
         output = []
         if result.returncode != 0:
