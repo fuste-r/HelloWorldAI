@@ -1,7 +1,10 @@
 import os
 import subprocess
+from google import genai
+from google.genai import types
 
 def run_python_file(working_directory, file_path, args=None):
+   
     abs_wd = os.path.abspath(working_directory)
     abs_filepath= os.path.normpath(os.path.join(abs_wd,file_path))
     try:
@@ -33,3 +36,17 @@ def run_python_file(working_directory, file_path, args=None):
         return "\n".join(output)
     except Exception as e:
         return f'Error: executing python file: {e}'
+
+
+schema_run_py_file = types.FunctionDeclaration(
+name="run_python_file",
+description="executes python files in a specified directory relative to the working directory, providing output upon success",
+parameters=types.Schema(
+    type=types.Type.OBJECT,
+    properties={
+        "directory": types.Schema(
+            type=types.Type.STRING,
+            description="Directory path to execute, relative to the working directory (default is the working directory itself)",
+        ),
+    },
+),)
